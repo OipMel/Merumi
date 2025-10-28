@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-image: url('../imagenes/mesa3.jpg');
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: #C0C0C0; /* plateado */
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      width: 300px;
+      text-align: center;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      color: #0B1F3F;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+  
+    /* Estilo de botón para el enlace Volver */
+    .Volver {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      display: inline-block;
+      padding: 8px 14px;
+      background-color: rgba(11,31,63,0.95); /* tono oscuro */
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      border: 2px solid rgba(255,255,255,0.06);
+      transition: transform 0.12s ease, background-color 0.12s ease;
+      z-index: 20;
+    }
+
+    .Volver:hover,
+    .Volver:focus {
+      transform: translateY(-2px);
+      background-color: #153356;
+    }
+
+    /* Ajuste en pantallas pequeñas para que no se salga */
+    @media (max-width: 420px) {
+      .Volver {
+        top: 12px;
+        left: 12px;
+        padding: 6px 10px;
+        font-size: 14px;
+      }
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0B1F3F;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #1A3A6D;
+    }
+    .link {
+      margin-top: 15px;
+      display: block;
+      color: #0B1F3F;
+      text-decoration: none;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+    <a class="Volver" href="inicio.html">Volver</a>
+   
+  <div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form action="dashboard.html" method="POST">
+      <input type="text" placeholder="Usuario" name="username" required>
+      <input type="password" placeholder="Contraseña" name="password" required>
+      <button type="submit">Ingresar</button>
+    </form>
+    <a class="link" href="Regist.html">¿No tienes cuenta? Regístrate</a>
+  </div>
+</body>
+</html>
