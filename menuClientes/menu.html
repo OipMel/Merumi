@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Merumi | Turnero de Mesas</title>
 
   <style>
-    /* 🔹 Reset y fuentes */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
 
-    body{
+    body {
       background-image: url('../imagenes/mesa3.jpg');
       background-size: cover;
       background-position: center;
@@ -18,97 +22,114 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding-bottom: 80px;
     }
 
-    h1{ margin-top: 70px; margin-bottom: 20px; }
-
-    /* Cabecera y navegación */
-    .header{
+    header {
       width: 100%;
-      height: clamp(120px, 30vh, 320px);
-      background-color: #011930;
-      overflow: hidden;
-      position: relative; /* FIX: necesario para posicionar el botón dentro del header */
+      background-color: #001a33;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
     }
 
-    .header img.logo-header{ width: 100%; height: 100%; object-fit: contain; display:block; }
+    header img {
+      height: 70px;
+      object-fit: contain;
+    }
 
-    nav{ width:100%; background:#001a33; margin-top: 0; }
-    nav ul{ list-style:none; display:flex; gap:30px; padding:12px 20px; justify-content:center; }
-    nav ul li a{ color:white; text-decoration:none; font-weight: bold; padding:6px 12px; border-radius:5px; }
-    nav ul li a:hover{ background:#0b1f3f; text-decoration: wavy underline; }
-
-    /* Botón cerrar sesión (arriba derecha dentro del header) */
-    #btnCerrarSesion{
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      background-color: #e74c3c;
+    #cerrarSesion {
+      background-color: #b22222;
       color: white;
       border: none;
-      padding: 10px 16px;
+      padding: 10px 20px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color .2s, transform .1s;
-      z-index: 100;
+      transition: background-color 0.2s;
     }
-    #btnCerrarSesion:hover{ background-color:#c0392b; transform: scale(1.05); }
 
-    /* Secciones generales */
-    .seccion{ margin-bottom: 40px; width: 100%; max-width: 500px; text-align: center; }
+    #cerrarSesion:hover {
+      background-color: #a11a1a;
+    }
 
-    /* Plano de mesas */
-    .plano{
+    nav {
+      width: 100%;
+      background: #011930;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 10px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    h1 {
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .plano {
       display: grid;
       grid-template-columns: repeat(4, 100px);
-      gap: 20px;
-      margin-bottom: 30px;
-      background-color: rgba(16,47,71,0.95);
+      grid-gap: 20px;
+      background-color: rgba(16, 47, 71, 0.95);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
 
-    .mesa{
+    .mesa {
       background-color: #1f4e6d;
       border-radius: 10px;
       padding: 15px;
       text-align: center;
       cursor: pointer;
-      transition: transform .2s;
+      transition: transform 0.2s, background-color 0.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-    .mesa:hover{ transform: scale(1.05); }
-    .disponible{ background-color: #1e7d32; }
+
+    .mesa:hover { transform: scale(1.05); }
+    .disponible { background-color: #1e7d32; }
     .reservado { background-color: #b85c00; }
 
-    .mesa img{
-      width:50px; height:50px; object-fit:contain; margin-bottom:5px;
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.4));
+    .mesa img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-bottom: 5px;
     }
 
-    /* Panel información mesa */
-    #infoMesa{
+    #infoMesa {
       background-color: rgba(31,78,109,0.95);
       border-radius: 10px;
       padding: 20px;
-      width: 280px;
+      width: 300px;
       text-align: center;
       display: none;
-      margin-top: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      transition: all .3s ease-in-out;
     }
-    #infoMesa h2{ margin-bottom:15px; font-weight:500; }
-    #infoMesa p{ margin:6px 0; font-weight:300; }
 
-    /* Botones globales */
-    .btn-primary{
-      margin-top: 15px;
+    #infoMesa p { margin: 6px 0; }
+
+    button {
       background-color: #00b894;
       color: white;
       border: none;
@@ -116,196 +137,199 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      transition: background-color .2s;
-    }
-    .btn-primary:hover{ background-color:#009e7d; }
-
-    /* Mis reservas */
-    .reserva{
-      background-color: rgba(16,47,71,0.95);
-      padding:15px; border-radius:10px; width:220px; text-align:left;
-      box-shadow:0 0 10px rgba(0,0,0,0.4);
-    }
-    .reserva p{ margin:5px 0; font-weight:300; }
-    .reserva button{
-      margin-top:10px; background-color:#e74c3c; color:white; border:none; padding:8px 12px;
-      border-radius:6px; cursor:pointer; font-weight:bold; transition:background-color .2s;
-    }
-    .reserva button:hover{ background-color:#c0392b; }
-
-    /* Footer */
-    footer{
-      position: fixed; left:50%; transform:translateX(-50%); bottom:12px; color:#8ca2c0;
-      font-size:.9rem; z-index:10;
+      transition: background-color 0.2s;
+      margin-top: 10px;
     }
 
-    /* Responsive pequeño */
-    @media (max-width: 600px){
-      .plano{ grid-template-columns: repeat(2, 100px); }
-      .seccion { max-width: 95%; }
+    button:hover {
+      background-color: #009e7d;
     }
+
+    #reservas {
+      margin-top: 50px;
+      background-color: rgba(16, 47, 71, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      width: 80%;
+      text-align: center;
+    }
+
+    .reserva-card {
+      display: inline-block;
+      background-color: #123450;
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 10px;
+      width: 220px;
+      text-align: left;
+      color: #f0f0f0;
+    }
+
+    .reserva-card button {
+      background-color: #e74c3c;
+    }
+
+    .reserva-card button:hover {
+      background-color: #c0392b;
+    }
+
+    footer {
+      margin-top: 50px;
+      color: #8ca2c0;
+      font-size: 0.9rem;
+    }
+
   </style>
 </head>
 <body>
-
-  <!-- Cabecera -->
-  <header class="header">
-    <img src="../imagenes/banner1.0.png" class="logo-header" alt="Banner Merumi" />
-    <button id="btnCerrarSesion">Cerrar sesión</button>
+  <header>
+    <img src="../imagenes/banner1.0.png" alt="Merumi">
+    <button id="cerrarSesion">Cerrar sesión</button>
   </header>
 
-  <!-- Navegación -->
   <nav>
     <ul>
       <li><a href="#mesas">Ver mesas</a></li>
-      <li><a href="#misReservas">Mis reservas</a></li>
+      <li><a href="#reservas">Mis reservas</a></li>
     </ul>
   </nav>
 
   <h1>Mapa de Mesas</h1>
 
-  <!-- Mesas internas -->
-  <div class="seccion" id="mesas">
-    <h3>Salón Interno</h3>
-    <div class="plano" id="planoInterno"></div>
+  <div class="main-container">
+    <div class="plano" id="planoMesas"></div>
+
+    <div id="infoMesa">
+      <h2>Información de la Mesa</h2>
+      <p id="numeroMesa"></p>
+      <p id="estadoMesa"></p>
+      <p id="capacidad"></p>
+      <button id="btnReservar">Reservar</button>
+    </div>
   </div>
 
-  <!-- Mesas externas -->
-  <div class="seccion">
-    <h3>Terraza / Externas</h3>
-    <div class="plano" id="planoExterno"></div>
-  </div>
-
-  <!-- Panel información -->
-  <div id="infoMesa">
-    <h2>Información de la Mesa</h2>
-    <p id="numeroMesa"></p>
-    <p id="estadoMesa"></p>
-    <p id="capacidad"></p>
-    <button id="btnReservar" class="btn-primary">Reservar</button>
-  </div>
-
-  <!-- Mis reservas -->
-  <div class="seccion" id="misReservas">
-    <h3>Mis Reservas</h3>
-    <div id="listaReservas" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-top:15px;"></div>
+  <div id="reservas">
+    <h2>Mis Reservas</h2>
+    <p id="sinReservas">No hay reservas registradas.</p>
+    <div id="listaReservas"></div>
   </div>
 
   <footer>© 2025 - Merumi | Sistema de reservas</footer>
 
-  <!-- Script principal -->
   <script>
     const imagenMesa = "../imagenes/mesalogo.png";
 
-    const mesasInternas = [
-      { numero: 1, estado: 'disponible' },
-      { numero: 2, estado: 'reservado' },
-      { numero: 3, estado: 'disponible' },
-      { numero: 4, estado: 'reservado' },
-      { numero: 5, estado: 'disponible' },
-      { numero: 6, estado: 'reservado' },
-      { numero: 7, estado: 'disponible' },
-      { numero: 8, estado: 'disponible' },
-    ];
+    // Generar mesas con capacidad aleatoria
+    const mesas = Array.from({ length: 12 }, (_, i) => ({
+      numero: i + 1,
+      estado: Math.random() < 0.5 ? "disponible" : "reservado",
+      capacidad: Math.floor(Math.random() * 4) + 2
+    }));
 
-    const mesasExternas = [
-      { numero: 9, estado: 'disponible' },
-      { numero: 10, estado: 'reservado' },
-      { numero: 11, estado: 'disponible' },
-      { numero: 12, estado: 'reservado' },
-    ];
+    const plano = document.getElementById("planoMesas");
+    const info = document.getElementById("infoMesa");
+    const numeroMesa = document.getElementById("numeroMesa");
+    const estadoMesa = document.getElementById("estadoMesa");
+    const capacidad = document.getElementById("capacidad");
+    const btnReservar = document.getElementById("btnReservar");
 
-    // Referencias DOM
-    const planoInterno = document.getElementById('planoInterno');
-    const planoExterno = document.getElementById('planoExterno');
-    const info = document.getElementById('infoMesa');
-    const numeroMesa = document.getElementById('numeroMesa');
-    const estadoMesa = document.getElementById('estadoMesa');
-    const capacidadElem = document.getElementById('capacidad');
-    const btnReservar = document.getElementById('btnReservar');
-    const listaReservas = document.getElementById('listaReservas');
-    const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+    const listaReservas = document.getElementById("listaReservas");
+    const sinReservas = document.getElementById("sinReservas");
 
     let reservas = [];
 
-    // Asigna capacidad aleatoria (2..5) a cada mesa
-    function asignarCapacidad(mesas){
-      mesas.forEach(m => m.capacidad = Math.floor(Math.random()*4) + 2);
-    }
-
-    function renderizarMesas(lista, contenedor){
-      contenedor.innerHTML = '';
-      lista.forEach(mesa => {
-        const div = document.createElement('div');
-        div.className = 'mesa ' + mesa.estado;
-        div.innerHTML = '<img src="'+imagenMesa+'" alt="Mesa '+mesa.numero+'"><span>'+mesa.numero+'</span>';
-        div.onclick = () => mostrarInfo(mesa, lista, contenedor);
-        contenedor.appendChild(div);
+    function renderizarMesas() {
+      plano.innerHTML = "";
+      mesas.forEach(mesa => {
+        const div = document.createElement("div");
+        div.classList.add("mesa", mesa.estado);
+        div.innerHTML = `
+          <img src="${imagenMesa}" alt="Mesa ${mesa.numero}">
+          <span>Mesa ${mesa.numero}</span>
+        `;
+        div.onclick = () => mostrarInfo(mesa);
+        plano.appendChild(div);
       });
     }
 
-    function mostrarInfo(mesa, lista, contenedor){
-      info.style.display = 'block';
-      numeroMesa.textContent = 'Número de mesa: ' + mesa.numero;
-      estadoMesa.textContent = 'Estado: ' + mesa.estado;
-      capacidadElem.textContent = 'Capacidad: ' + (mesa.capacidad || '—') + ' persona(s)';
-      // asigna handler del botón (lo reemplaza cada vez)
-      btnReservar.onclick = () => reservarMesa(mesa, lista, contenedor);
+    function mostrarInfo(mesa) {
+      info.style.display = "block";
+      numeroMesa.textContent = `Número de mesa: ${mesa.numero}`;
+      estadoMesa.textContent = `Estado: ${mesa.estado}`;
+      capacidad.textContent = `Capacidad: ${mesa.capacidad} personas`;
+      btnReservar.onclick = () => reservarMesa(mesa);
     }
 
-    function reservarMesa(mesa, lista, contenedor){
-      if(mesa.estado === 'disponible'){
-        mesa.estado = 'reservado';
-        const fecha = new Date().toLocaleDateString();
-        const turno = '20:00';
-        reservas.push({ numeroMesa: mesa.numero, fecha, turno, estado: 'Confirmada' });
-        alert('¡Mesa ' + mesa.numero + ' reservada con éxito!');
-        renderizarMesas(lista, contenedor);
-        mostrarInfo(mesa, lista, contenedor);
-        renderizarReservas();
-      } else {
-        alert('No se puede reservar la mesa ' + mesa.numero + ' (' + mesa.estado + ')');
-      }
-    }
-
-    function renderizarReservas(){
-      listaReservas.innerHTML = '';
-      if(reservas.length === 0){
-        listaReservas.innerHTML = '<p>No hay reservas.</p>';
+    function reservarMesa(mesa) {
+      if (mesa.estado !== "disponible") {
+        alert("Esta mesa no está disponible actualmente.");
         return;
       }
 
-      reservas.forEach((reserva, index) => {
-        const div = document.createElement('div');
-        div.className = 'reserva';
-        div.innerHTML = ''
-          + '<p><strong>Mesa:</strong> ' + reserva.numeroMesa + '</p>'
-          + '<p><strong>Fecha:</strong> ' + reserva.fecha + '</p>'
-          + '<p><strong>Turno:</strong> ' + reserva.turno + '</p>'
-          + '<p><strong>Estado:</strong> ' + reserva.estado + '</p>'
-          + '<button>Cancelar</button>';
-        const btnCancelar = div.querySelector('button');
-        btnCancelar.onclick = () => {
-          if(confirm('¿Cancelar reserva de la mesa ' + reserva.numeroMesa + '?')){
-            reservas.splice(index, 1);
-            renderizarReservas();
-          }
-        };
+      const fecha = prompt("Ingrese la fecha de reserva (dd/mm/aaaa):");
+      if (!fecha) return;
+
+      const hora = prompt("Ingrese el horario de reserva (por ejemplo 21:00):");
+      if (!hora) return;
+
+      mesa.estado = "reservado";
+      reservas.push({
+        numero: mesa.numero,
+        fecha: fecha,
+        hora: hora,
+        estado: "Confirmada"
+      });
+
+      alert(`¡Mesa ${mesa.numero} reservada para el ${fecha} a las ${hora}!`);
+      renderizarMesas();
+      mostrarReservas();
+    }
+
+    function mostrarReservas() {
+      listaReservas.innerHTML = "";
+      if (reservas.length === 0) {
+        sinReservas.style.display = "block";
+        return;
+      }
+
+      sinReservas.style.display = "none";
+      reservas.forEach((r, i) => {
+        const div = document.createElement("div");
+        div.classList.add("reserva-card");
+        div.innerHTML = `
+          <p><strong>Mesa:</strong> ${r.numero}</p>
+          <p><strong>Fecha:</strong> ${r.fecha}</p>
+          <p><strong>Turno:</strong> ${r.hora}</p>
+          <p><strong>Estado:</strong> ${r.estado}</p>
+          <button onclick="cancelarReserva(${i})">Cancelar</button>
+        `;
         listaReservas.appendChild(div);
       });
     }
 
-    // Inicialización
-    asignarCapacidad(mesasInternas);
-    asignarCapacidad(mesasExternas);
-    renderizarMesas(mesasInternas, planoInterno);
-    renderizarMesas(mesasExternas, planoExterno);
-    renderizarReservas();
+    function cancelarReserva(index) {
+      const reserva = reservas[index];
+      if (confirm(`¿Desea cancelar la reserva de la mesa ${reserva.numero}?`)) {
+        reservas.splice(index, 1);
+        const mesa = mesas.find(m => m.numero === reserva.numero);
+        if (mesa) mesa.estado = "disponible";
+        alert("Reserva cancelada.");
+        renderizarMesas();
+        mostrarReservas();
+      }
+    }
 
-    // Cerrar sesión
-    btnCerrarSesion.onclick = () => {
-      window.location.href = 'menu_sesion.html'; // ajustar ruta real
-    };
+    // Cerrar sesión con confirmación
+    document.getElementById("cerrarSesion").addEventListener("click", () => {
+      if (confirm("¿Seguro que desea cerrar sesión?")) {
+        window.location.href = "inicio.html"; // Cambia por tu ruta real
+      }
+    });
+
+    renderizarMesas();
+    mostrarReservas();
   </script>
 </body>
 </html>
+
+
