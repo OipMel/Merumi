@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merumi | Panel de Administración</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+
+    body {
+      background-image: url('../imagenes/mesa3.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      background-color: #001a33;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    header img {
+      height: 70px;
+      object-fit: contain;
+    }
+
+    #cerrarSesion {
+      background-color: #b22222;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    #cerrarSesion:hover { background-color: #a11a1a; }
+
+    nav {
+      width: 100%;
+      background: #011930;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+
+    h1 { margin: 30px 0 15px 0; }
+
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    .plano {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 20px;
+      background-color: rgba(16, 47, 71, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .mesa {
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s;
+    }
+
+    .mesa:hover { transform: scale(1.05); }
+
+    .disponible { background-color: #1e7d32; }
+    .reservado { background-color: #b85c00; }
+    .confirmado { background-color: #004d99; }
+    .cancelado { background-color: #6c757d; }
+
+    .mesa img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-bottom: 5px;
+    }
+
+    #infoMesa {
+      background-color: rgba(31,78,109,0.95);
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    #infoMesa p { margin: 6px 0; }
+
+    button {
+      background-color: #00b894;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+      margin-top: 10px;
+    }
+
+    button:hover { background-color: #009e7d; }
+
+    section {
+      margin-top: 50px;
+      background-color: rgba(16, 47, 71, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      width: 85%;
+      text-align: center;
+      display: none;
+    }
+
+    .reserva-card, .cliente-card {
+      display: inline-block;
+      background-color: #123450;
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 10px;
+      width: 250px;
+      text-align: left;
+    }
+
+    .cliente-card button { margin: 5px 5px 0 0; }
+
+    footer {
+      margin-top: 50px;
+      color: #8ca2c0;
+      font-size: 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../imagenes/banner1.0.png" alt="Merumi">
+    <button id="cerrarSesion">Cerrar sesión</button>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" onclick="mostrarSeccion('mesas')">Ver Mesas</a></li>
+      <li><a href="#" onclick="mostrarSeccion('reservas')">Reservas de Clientes</a></li>
+      <li><a href="#" onclick="mostrarSeccion('clientes')">Clientes Registrados</a></li>
+    </ul>
+  </nav>
+
+  <h1>Panel del Administrador</h1>
+
+  <!-- Sección MESAS -->
+  <section id="mesas">
+    <div class="main-container">
+      <div class="plano" id="planoMesas"></div>
+
+      <div id="infoMesa">
+        <h2>Información de la Mesa</h2>
+        <p id="numeroMesa"></p>
+        <p id="estadoMesa"></p>
+        <p id="capacidad"></p>
+        <p id="detalleCancelacion"></p>
+        <button id="btnReservarCliente">Reservar por Cliente</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sección RESERVAS -->
+  <section id="reservas">
+    <h2>Reservas de Clientes</h2>
+    <div id="listaReservas"></div>
+  </section>
+
+  <!-- Sección CLIENTES -->
+  <section id="clientes">
+    <h2>Clientes Registrados</h2>
+    <div id="listaClientes"></div>
+  </section>
+
+  <footer>© 2025 - Merumi | Administración</footer>
+
+  <script>
+    const imagenMesa = "../imagenes/mesalogo.png";
+
+    // Datos simulados
+    const clientes = [
+      { id: 1, nombre: "Milagros Guerra", mail: "miki@mail.com", telefono: "3511111111", user: "miik1212" },
+      { id: 2, nombre: "Rubi Solis", mail: "ruru@mail.com", telefono: "3512222222", user: "rubi323" },
+      { id: 3, nombre: "Tiago Roldan", mail: "roro@mail.com", telefono: "3513333333", user: "tiago9283" }
+    ];
+
+    const mesas = Array.from({ length: 12 }, (_, i) => ({
+      numero: i + 1,
+      estado: ["disponible", "reservado", "confirmado"][Math.floor(Math.random() * 3)],
+      capacidad: Math.floor(Math.random() * 4) + 2,
+      canceladoPor: null,
+      canceladoHora: null
+    }));
+
+    let reservas = [
+      { cliente: "Milagros Guerra", mesa: 2, fecha: "04/11/2025", turno: "21:00" },
+      { cliente: "Rubi Solis", mesa: 5, fecha: "05/11/2025", turno: "22:00" }
+    ];
+
+    const plano = document.getElementById("planoMesas");
+    const info = document.getElementById("infoMesa");
+    const numeroMesa = document.getElementById("numeroMesa");
+    const estadoMesa = document.getElementById("estadoMesa");
+    const capacidad = document.getElementById("capacidad");
+    const detalleCancelacion = document.getElementById("detalleCancelacion");
+    const btnReservarCliente = document.getElementById("btnReservarCliente");
+
+    const listaReservas = document.getElementById("listaReservas");
+    const listaClientes = document.getElementById("listaClientes");
+
+    function mostrarSeccion(id) {
+      document.querySelectorAll("section").forEach(s => s.style.display = "none");
+      document.getElementById(id).style.display = "block";
+      if (id === "reservas") mostrarReservas();
+      if (id === "clientes") mostrarClientes();
+      if (id === "mesas") renderizarMesas();
+    }
+
+    // Renderizado de mesas
+    function renderizarMesas() {
+      plano.innerHTML = "";
+      mesas.forEach(mesa => {
+        const div = document.createElement("div");
+        div.classList.add("mesa", mesa.estado);
+        div.innerHTML = `<img src="${imagenMesa}" alt=""><span>Mesa ${mesa.numero}</span>`;
+        div.onclick = () => mostrarInfo(mesa);
+        plano.appendChild(div);
+      });
+    }
+
+    function mostrarInfo(mesa) {
+      info.style.display = "block";
+      numeroMesa.textContent = `Número de mesa: ${mesa.numero}`;
+      estadoMesa.textContent = `Estado: ${mesa.estado}`;
+      capacidad.textContent = `Capacidad: ${mesa.capacidad} personas`;
+      detalleCancelacion.textContent = mesa.canceladoPor ? 
+        `Cancelada por ${mesa.canceladoPor} a las ${mesa.canceladoHora}` : "";
+      btnReservarCliente.onclick = () => reservarPorCliente(mesa);
+    }
+
+    // Reservar por cliente (admin)
+    function reservarPorCliente(mesa) {
+      if (mesa.estado !== "disponible" && mesa.estado !== "cancelado") {
+        alert("La mesa no está disponible para reservar.");
+        return;
+      }
+
+      const clienteNombre = prompt("Ingrese el nombre del cliente:");
+      if (!clienteNombre) return;
+
+      const fecha = prompt("Ingrese la fecha (dd/mm/aaaa):");
+      if (!fecha) return;
+
+      const hora = prompt("Ingrese la hora (por ejemplo 21:00):");
+      if (!hora) return;
+
+      mesa.estado = "reservado";
+      reservas.push({ cliente: clienteNombre, mesa: mesa.numero, fecha: fecha, turno: hora });
+      alert(`Mesa ${mesa.numero} reservada para ${clienteNombre}.`);
+      renderizarMesas();
+      mostrarReservas();
+    }
+
+    // Mostrar reservas
+    function mostrarReservas() {
+      listaReservas.innerHTML = "";
+      reservas.forEach((r, i) => {
+        const div = document.createElement("div");
+        div.classList.add("reserva-card");
+        div.innerHTML = `
+          <p><strong>Cliente:</strong> ${r.cliente}</p>
+          <p><strong>Mesa:</strong> ${r.mesa}</p>
+          <p><strong>Fecha:</strong> ${r.fecha}</p>
+          <p><strong>Turno:</strong> ${r.turno}</p>
+          <button onclick="cancelarReservaAdmin(${i})">Cancelar</button>
+        `;
+        listaReservas.appendChild(div);
+      });
+    }
+
+    function cancelarReservaAdmin(index) {
+      const r = reservas[index];
+      if (confirm(`¿Cancelar reserva de ${r.cliente} (Mesa ${r.mesa})?`)) {
+        reservas.splice(index, 1);
+        const mesa = mesas.find(m => m.numero === r.mesa);
+        if (mesa) {
+          mesa.estado = "cancelado";
+          mesa.canceladoPor = r.cliente;
+          mesa.canceladoHora = new Date().toLocaleTimeString();
+        }
+        renderizarMesas();
+        mostrarReservas();
+      }
+    }
+
+    // Mostrar clientes
+    function mostrarClientes() {
+      listaClientes.innerHTML = "";
+      clientes.forEach((c, i) => {
+        const div = document.createElement("div");
+        div.classList.add("cliente-card");
+        div.innerHTML = `
+          <p><strong>ID:</strong> ${c.id}</p>
+          <p><strong>Nombre:</strong> ${c.nombre}</p>
+          <p><strong>Mail:</strong> ${c.mail}</p>
+          <p><strong>Teléfono:</strong> ${c.telefono}</p>
+          <p><strong>User:</strong> ${c.user}</p>
+          <button onclick="editarCliente(${i})">Editar</button>
+          <button onclick="eliminarCliente(${i})">Eliminar</button>
+        `;
+        listaClientes.appendChild(div);
+      });
+    }
+
+    function editarCliente(i) {
+      const c = clientes[i];
+      const nuevoNombre = prompt("Nuevo nombre:", c.nombre) || c.nombre;
+      const nuevoMail = prompt("Nuevo mail:", c.mail) || c.mail;
+      const nuevoTel = prompt("Nuevo teléfono:", c.telefono) || c.telefono;
+      clientes[i] = { ...c, nombre: nuevoNombre, mail: nuevoMail, telefono: nuevoTel };
+      mostrarClientes();
+    }
+
+    function eliminarCliente(i) {
+      if (confirm("¿Eliminar este cliente?")) {
+        clientes.splice(i, 1);
+        mostrarClientes();
+      }
+    }
+
+    // Cerrar sesión con confirmación
+    document.getElementById("cerrarSesion").addEventListener("click", () => {
+      if (confirm("¿Seguro que desea cerrar sesión?")) {
+        window.location.href = "../index.html"; // redirige a inicio
+      }
+    });
+
+    // Mostrar por defecto la sección de mesas
+    mostrarSeccion("mesas");
+  </script>
+</body>
+</html>
