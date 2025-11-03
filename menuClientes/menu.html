@@ -14,65 +14,188 @@
       font-family: "Poppins", sans-serif;
     }
 
-    /* Fondo principal */
     body {
       background-image:url('../imagenes/mesa3.jpg');
+      background-size: cover;
+      background-position: center;
       color: #f5f5f5;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* colocar el header arriba */
       min-height: 100vh;
+      padding-bottom: 80px; /* para que no tape el footer */
     }
 
+    h1 {
+      margin-top: 70px;
+      margin-bottom: 20px;
+    }
+
+    .seccion {
+      margin-bottom: 40px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .plano {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-gap: 20px;
+      margin-bottom: 30px;
+      background-color: rgba(16, 47, 71, 0.95);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    }
+
+    .mesa {
+      background-color: #1f4e6d;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mesa:hover {
+      transform: scale(1.05);
+    }
+
+    .disponible { background-color: #1e7d32; }
+    .reservado { background-color: #b85c00; }
+
+    .mesa img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-bottom: 5px;
+      filter: drop-shadow(0 0 3px rgba(0,0,0,0.4));
+    }
+
+    /* Panel de información de la mesa */
+    #infoMesa {
+      background-color: rgba(31,78,109,0.95);
+      border-radius: 10px;
+      padding: 20px;
+      width: 280px;
+      text-align: center;
+      display: none;
+      margin-top: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      transition: all 0.3s ease-in-out;
+    }
+
+    #infoMesa h2 {
+      margin-bottom: 15px;
+      font-weight: 500;
+    }
+
+    #infoMesa p {
+      margin: 6px 0;
+      font-weight: 300;
+    }
+
+    button {
+      margin-top: 15px;
+      background-color: #00b894;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #009e7d;
+    }
+
+    /* Header y nav */
     .header {
       width: 100%;
-      /* altura responsive entre 100px y 320px */
       height: clamp(120px, 30vh, 320px);
       overflow: hidden;
-      background-color: #011930; /* Azul más oscuro para el header */
+      background-color: #011930;
       margin-bottom: 20px;
       padding: 0;
-      display: block;
       position: relative;
     }
 
-    /* Imagen que ocupa todo el header y se ve completa */
     .header img.logo-header {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* ver la imagen completa sin recortarla */
-      object-position: center center; /* centrar el contenido */
+      object-fit: contain;
+      object-position: center center;
       display: block;
-      background-color: #011930; /* color de fondo si hay espacio vacío */
     }
-    nav {
-        width: 100%;
-        background: #001a33;
-        margin-top: -20px;
-    }
-    nav ul { 
-        list-style: none; 
-        display: flex; 
-        gap: 30px; 
-        background: #001a33; 
-        padding: 12px 20px; 
-        max-width: 1200px;
-        margin: auto;
-        justify-content: center;
- }
-    nav ul li a { 
-        color: white; 
-        text-decoration: none; 
-        font-weight: bold; 
-        padding: 6px 12px;
-        border-radius: 5px;}
-    nav ul li a:hover { 
-        text-decoration:wavy underline;
-        background: #0b1f3f;}
-    
 
-      /* Footer centrado y fijo en pantallas pequeñas para evitar solapamientos */
+    nav {
+      width: 100%;
+      background: #001a33;
+      margin-top: -20px;
+    }
+
+    nav ul { 
+      list-style: none; 
+      display: flex; 
+      gap: 30px; 
+      background: #001a33; 
+      padding: 12px 20px; 
+      max-width: 1200px;
+      margin: auto;
+      justify-content: center;
+    }
+
+    nav ul li a { 
+      color: white; 
+      text-decoration: none; 
+      font-weight: bold; 
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+
+    nav ul li a:hover { 
+      text-decoration: wavy underline;
+      background: #0b1f3f;
+    }
+  /*mis reservas*/
+  .reserva {
+  background-color: rgba(16, 47, 71, 0.95);
+  padding: 15px;
+  border-radius: 10px;
+  width: 220px;
+  text-align: left;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+
+.reserva p {
+  margin: 5px 0;
+  font-weight: 300;
+}
+
+.reserva button {
+  margin-top: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.reserva button:hover {
+  background-color: #c0392b;
+}
+
+
     footer {
       position: fixed;
       left: 50%;
@@ -84,21 +207,181 @@
       background: transparent;
     }
 
-
   </style>
 </head>
 <body>
-<header class="header">
-<img src="../imagenes/banner1.0.png"  class="logo-header" />
-</header > 
-<nav>
-    <ul>
-        <li><a href="menuClientes/mesas.html">Ver mesas</a></li>
-        <li><a href="menuClientes/reservas.html">Mis reservas</a></li>
-    </ul>
-</nav>
+  <header class="header">
+    <img src="../imagenes/banner1.0.png" class="logo-header" />
+  </header> 
 
+  <nav>
+    <ul>
+      <li><a href="#mesas">Ver mesas</a></li>
+      <li><a href="">Mis reservas</a></li>
+    </ul>
+  </nav>
+
+  <h1>Mapa de Mesas</h1>
+
+  <!-- Mesas internas -->
+  <div class="seccion" id="mesas">
+    <h3>Salón Interno</h3>
+    <div class="plano" id="planoInterno"></div>
+  </div>
+
+  <!-- Mesas externas -->
+  <div class="seccion">
+    <h3>Terraza / Externas</h3>
+    <div class="plano" id="planoExterno"></div>
+  </div>
+
+  <!-- Panel de información -->
+  <div id="infoMesa">
+    <h2>Información de la Mesa</h2>
+    <p id="numeroMesa"></p>
+    <p id="estadoMesa"></p>
+    <p id="capacidad"></p>
+    <button id="btnReservar">Reservar</button>
+  </div>
+
+<script>
+    const imagenMesa = "../imagenes/mesalogo.png";
+  
+    const mesasInternas = [
+      { numero: 1, estado: 'disponible' },
+      { numero: 2, estado: 'reservado' },
+      { numero: 3, estado: 'disponible' },
+      { numero: 4, estado: 'reservado' },
+      { numero: 5, estado: 'disponible' },
+      { numero: 6, estado: 'reservado' },
+      { numero: 7, estado: 'disponible' },
+      { numero: 8, estado: 'disponible' },
+    ];
+
+    const mesasExternas = [
+      { numero: 9, estado: 'disponible' },
+      { numero: 10, estado: 'reservado' },
+      { numero: 11, estado: 'disponible' },
+      { numero: 12, estado: 'reservado' },
+    ];
+
+    const planoInterno = document.getElementById('planoInterno');
+    const planoExterno = document.getElementById('planoExterno');
+    const info = document.getElementById('infoMesa');
+    const numeroMesa = document.getElementById('numeroMesa');
+    const estadoMesa = document.getElementById('estadoMesa');
+    const capacidad = document.getElementById('capacidad');
+    const btnReservar = document.getElementById('btnReservar');
+
+    function renderizarMesas(lista, contenedor) {
+      contenedor.innerHTML = '';
+      lista.forEach(mesa => {
+        const div = document.createElement('div');
+        div.classList.add('mesa', mesa.estado);
+        div.innerHTML = `
+          <img src="${imagenMesa}" alt="Mesa ${mesa.numero}">
+          <span>${mesa.numero}</span>
+        `;
+        div.onclick = () => mostrarInfo(mesa, lista, contenedor);
+        contenedor.appendChild(div);
+      });
+    }
+
+    function mostrarInfo(mesa, lista, contenedor) {
+      info.style.display = 'block';
+      numeroMesa.textContent = `Número de mesa: ${mesa.numero}`;
+      estadoMesa.textContent = `Estado: ${mesa.estado}`;
+      capacidad.textContent = `Capacidad: ${mesa.capacidad}`;
+      btnReservar.onclick = () => reservarMesa(mesa, lista, contenedor);
+    }
+
+    function reservarMesa(mesa, lista, contenedor) {
+      if (mesa.estado === 'disponible') {
+        mesa.estado = 'reservado';
+        alert(`¡Mesa ${mesa.numero} reservada con éxito!`);
+        renderizarMesas(lista, contenedor);
+        mostrarInfo(mesa, lista, contenedor);
+      } else {
+        alert(`No se puede reservar la mesa ${mesa.numero} (${mesa.estado}) (${mesa.capacidad})`);
+      }
+    }
+
+    renderizarMesas(mesasInternas, planoInterno);
+    renderizarMesas(mesasExternas, planoExterno);
+
+  </script>
+
+  <!-- Botón Cerrar Sesión -->
+<div style="width:100%; max-width:1200px; margin:20px auto; text-align:left; ">
+  <button id="btnCerrarSesion" style="background:#e74c3c; color:white; padding:10px 15px; border:none; border-radius:6px; cursor:pointer;">
+    Cerrar Sesión
+  </button>
+</div>
+
+<!-- Sección Mis Reservas -->
+<div class="seccion" id="misReservas">
+  <h3>Mis Reservas</h3>
+  <div id="listaReservas" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-top:15px;"></div>
+</div>
+
+<script>
+  // Lista de reservas del usuario
+let reservas = []; // inicialmente vacía
+
+const listaReservas = document.getElementById('listaReservas');
+const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+
+function renderizarReservas() {
+  listaReservas.innerHTML = '';
+  
+  if (reservas.length === 0) {
+    listaReservas.innerHTML = `<p>No hay reservas.</p>`;
+    return;
+  }
+
+  reservas.forEach((reserva, index) => {
+    const div = document.createElement('div');
+    div.classList.add('reserva');
+    div.innerHTML = `
+      <p><strong>Mesa:</strong> ${reserva.numeroMesa}</p>
+      <p><strong>Fecha:</strong> ${reserva.fecha}</p>
+      <p><strong>Turno:</strong> ${reserva.turno}</p>
+      <p><strong>Estado:</strong> ${reserva.estado}</p>
+      <button>Cancelar</button>
+    `;
+    // Botón cancelar
+    div.querySelector('button').onclick = () => {
+      if (confirm(`¿Cancelar reserva de la mesa ${reserva.numeroMesa}?`)) {
+        reservas.splice(index, 1);
+        renderizarReservas();
+      }
+    };
+    listaReservas.appendChild(div);
+  });
+}
+
+// Botón cerrar sesión
+btnCerrarSesion.onclick = () => {
+  window.location.href = 'menu_sesion.html'; // Cambiá por la URL real del menú
+};
+
+// Ejemplo: agregar reserva al seleccionar una mesa
+function agregarReserva(mesa, fecha = '2025-11-03', turno = '20:00') {
+  reservas.push({
+    numeroMesa: mesa.numero,
+    fecha,
+    turno,
+    estado: mesa.estado
+  });
+  renderizarReservas();
+}
+
+// Render inicial
+renderizarReservas();
+
+</script>
   <footer>© 2025 - Merumi | Sistema de reservas</footer>
 
 </body>
 </html>
+
