@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuperar Contraseña</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('../imagenes/mesa3.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .header {
+      width: 100%;
+      height: clamp(120px, 30vh, 320px);
+      overflow: hidden;
+      background-color: #011930;
+      margin-bottom: 20px;
+      padding: 0;
+      display: block;
+      position: relative;
+    }
+
+    .header img.logo-header {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      background-color: #011930;
+    }
+
+    .recuperar-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      width: 350px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      background-color: rgba(11, 31, 63, 0.95);
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: rgba(9, 25, 55, 0.95);
+    }
+
+    .volver-login a {
+      text-decoration: none;
+      color: rgba(11, 31, 63, 0.95);
+    }
+
+    .mensaje {
+      font-size: 14px;
+      color: green;
+      margin-bottom: 10px;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <img src="../imagenes/banner1.0.png" class="logo-header" />
+  </header>
+
+  <div class="recuperar-container" id="container">
+    <h2>Recuperar Contraseña</h2>
+    <p>Ingresa tu correo electrónico para recibir un código de verificación.</p>
+
+    <form id="form-recuperar">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="tuemail@ejemplo.com" required>
+      <button type="submit">Enviar código</button>
+
+      <p class="volver-login">
+        <a href="iniciarSesion.html">Volver al inicio de sesión</a>
+      </p>
+    </form>
+  </div>
+
+  <script>
+    const container = document.getElementById("container");
+    let codigoGenerado = "";
+
+    // Paso 1: Enviar correo y generar código
+    document.getElementById("form-recuperar").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+
+      // Validar formato del correo con "@"
+      if (!email.includes("@")) {
+        alert("Por favor, ingresa un correo electrónico válido con '@'.");
+        return;
+      }
+
+      // Generar código aleatorio de 6 dígitos
+      codigoGenerado = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Mostrar mensaje simulado
+      alert(`Se ha enviado un código de verificación a tu correo.\n\n(Código de prueba: ${codigoGenerado})`);
+
+      // Reemplazar el contenido por el campo para ingresar el código
+      container.innerHTML = `
+        <h2>Verificar Código</h2>
+        <p>Ingresa el código de verificación que recibiste en tu correo.</p>
+        <input type="text" id="codigoIngresado" placeholder="Código de 6 dígitos" maxlength="6" required>
+        <button id="btn-verificar">Verificar código</button>
+        <p id="mensaje-error" class="error"></p>
+        <p class="volver-login"><a href="#" id="reenviar">Volver a ingresar correo</a></p>
+      `;
+
+      document.getElementById("btn-verificar").addEventListener("click", verificarCodigo);
+      document.getElementById("reenviar").addEventListener("click", volverAReenviar);
+    });
+
+    // Paso 2: Verificar código ingresado
+    function verificarCodigo() {
+      const codigoIngresado = document.getElementById("codigoIngresado").value.trim();
+      const mensajeError = document.getElementById("mensaje-error");
+
+      if (codigoIngresado === codigoGenerado) {
+        // Avanzar a pantalla de nueva contraseña
+        container.innerHTML = `
+          <h2>Crear Nueva Contraseña</h2>
+          <p>Ingresa tu nueva contraseña y confírmala.</p>
+          <input type="password" id="nuevaPass" placeholder="Nueva contraseña" required>
+          <input type="password" id="confirmarPass" placeholder="Confirmar contraseña" required>
+          <button id="btn-guardar">Guardar contraseña</button>
+          <p class="volver-login"><a href="iniciarSesion.html">Volver al inicio de sesión</a></p>
+        `;
+
+        document.getElementById("btn-guardar").addEventListener("click", guardarContraseña);
+      } else {
+        mensajeError.textContent = "❌ El código ingresado es incorrecto. Debes volver a ingresar tu correo.";
+      }
+    }
+
+    // Paso 3: Volver a la pantalla de correo
+    function volverAReenviar() {
+      location.reload(); // vuelve a la primera pantalla
+    }
+
+    // Paso 4: Guardar nueva contraseña (simulado)
+    function guardarContraseña() {
+      const nueva = document.getElementById("nuevaPass").value;
+      const confirmar = document.getElementById("confirmarPass").value;
+
+      if (nueva.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres.");
+        return;
+      }
+
+      if (nueva !== confirmar) {
+        alert("Las contraseñas no coinciden. Inténtalo de nuevo.");
+        return;
+      }
+
+      alert("✅ Tu contraseña ha sido cambiada correctamente. Ahora puedes iniciar sesión.");
+      window.location.href = "iniciarSesion.html";
+    }
+  </script>
+</body>
+</html>
